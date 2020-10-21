@@ -1,5 +1,5 @@
 create database exercise;
-Descriptioncreate table Products (
+create table Products (
 Id int,
 Name nvarchar(50),
 ImageUrl nvarchar(1000),
