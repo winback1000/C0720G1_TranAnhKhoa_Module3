@@ -19,8 +19,8 @@ id int primary key,
 `name` varchar(15)
 );
 create table borrow_order(
-student_id int,
-book_id int,
+student_id int not null,
+book_id int not null,
 borrow_date date,
 return_date date
 );
@@ -30,3 +30,4 @@ alter table borrow_order
 add foreign key (student_id) references students(id),
 add foreign key (book_id) references books(id),
 add primary key(student_id, book_id);
+
