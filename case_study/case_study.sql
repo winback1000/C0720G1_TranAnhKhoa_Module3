@@ -11,13 +11,18 @@ id int auto_increment primary key,
 area double not null,
 rent_cost double not null check (rent_cost>0),
 max_people int not null check (max_people>0),
-rent_type varchar(10) check (rent_type in ('year','month', 'day','hour')),
+rent_type_id int,
 room_standard varchar(10) not null,
 descriptions_of_other_utilities text,
 swimming_pool_area double not null,
 number_of_floor int not null,
 catalogue int not null,
 free_utility_service int not null
+);
+create table rent_types (
+id int auto_increment primary key,
+`name` varchar(10) check (`name` in ('year','month', 'day','hour')),
+price double check (price >0)
 );
 create table other_utilities(
 id int auto_increment primary key,
@@ -82,6 +87,7 @@ id_utilities int,
 quantity int);
 alter table service
 	add constraint fk_catalogue foreign key (catalogue) references service_catalogue (id),
+    add constraint fk_rent_type foreign key (rent_type_id) references rent_types (id),
     add constraint fk_free_utilities foreign key(free_utility_service) references other_utilities(id);
 alter table employees
 	add constraint fk_position foreign key (position) references employee_position(id),
