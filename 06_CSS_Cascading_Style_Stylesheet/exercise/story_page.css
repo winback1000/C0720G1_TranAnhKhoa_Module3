@@ -1,0 +1,45 @@
+body {
+    background-image: url("green_leaves_4-wallpaper-1920x1200.jpg");
+}
+div.mainMenu {
+    height: 70px;
+    border: red 1px solid;
+}
+div.leftMenu{
+    border: red 1px solid;
+    float: left;
+    width: 68%;
+    height: 700px;
+    margin-top: 10px;
+}
+div.rightMenu{
+    border: blue 1px solid;
+    float: right;
+    width: 31%;
+    height: 700px;
+    margin-top: 10px;
+}
+.button {
+    width: 150px;
+    height: 50px;
+    background-color: chartreuse;
+    font-size: large;
+    font-weight: bold;
+    display: inline;
+    margin: 0 20px 0 20px;
+}
+div.subLeftMenu {
+    /*border: red 1px solid;*/
+    float: left;
+    width: 30%;
+    height: 400px;
+    margin: 10px 10px 5px 10px;
+    display: inline;
+    image-resolution: snap;
+}
+.subMenuText {
+    text-align: center;
+    color: whitesmoke;
+    font-size: xx-large;
+    font-weight: bold;
+}
