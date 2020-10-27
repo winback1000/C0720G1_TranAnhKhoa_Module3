@@ -3,17 +3,17 @@ body {
 }
 div.mainMenu {
     height: 70px;
-    border: red 1px solid;
+    /*border: red 1px solid;*/
 }
 div.leftMenu{
-    border: red 1px solid;
+    /*border: red 1px solid;*/
     float: left;
     width: 68%;
     height: 700px;
     margin-top: 10px;
 }
 div.rightMenu{
-    border: blue 1px solid;
+    /*border: blue 1px solid;*/
     float: right;
     width: 31%;
     height: 700px;
@@ -42,4 +42,16 @@ div.subLeftMenu {
     color: whitesmoke;
     font-size: xx-large;
     font-weight: bold;
+}
+ul {
+    list-style-image: url("checked.png");
+    position: fixed;
+}
+li {
+    font-size: large;
+    font-weight: bold;
+    position: center;
+}
+a {
+    text-decoration: none;
 }
