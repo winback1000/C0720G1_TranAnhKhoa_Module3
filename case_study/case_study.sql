@@ -143,41 +143,14 @@ INSERT INTO `casestudy`.`service` (`name`, `area`, `rent_cost`, `max_people`, `r
 ('Winter', '70', '200', '7', '4', 'Elegant', 'House for hours', '40', '2', '2');
 
 delimiter //
-create procedure quest2()
+create procedure quest14()
 begin
-select * from employees where length(name)<=15 and (name like 'H%' or name like 'K%'or name like 'T%') ;
-end //
-delimiter ;
-
-delimiter //
-create procedure quest3()
-begin
-select * from customers where year(now())- year(date_of_birth)>= 18 and year(now())- year(date_of_birth)<= 50 and address in('DaNang','QuangTri');
-end //
-delimiter ;
-
-delimiter //
-create procedure quest4()
-begin
-select customers.id, customers.name, customer_type.name, count(customers.id) from customers
-join contract on customers.id = contract.id_customer
-join customer_type on customers.customer_type =  customer_type.id
-where customer_type = 1
-group by customers.id 
-order by count(customers.id);
-end //
-delimiter ;
-
-delimiter //
-create procedure quest8_1()
-begin
-select distinct name from customers;
-end //
-delimiter ;
-
-delimiter //
-create procedure quest8_2()
-begin
-select name from customers group by name;
+select
+contract.id as `contract id`, service.name as `service name`, other_utilities.name as `used utility service`, sum(contract_detail.quantity) as `time of using` from other_utilities
+join contract_detail on other_utilities.id = contract_detail.id_utilities
+join contract on contract_detail.id_contract = contract.id
+join service on contract.id_service = service.id
+group by other_utilities.id
+having sum(contract_detail.quantity) = 1;
 end //
 delimiter ;

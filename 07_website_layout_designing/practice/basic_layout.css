@@ -1,0 +1,50 @@
+
+#logo {
+    margin: 0.5%;
+    width: 19%;
+    height: 150px;
+    float: left;
+    background-color: burlywood;
+}
+#banner {
+    margin: 0.5%;
+    width: 79%;
+    height: 150px;
+    float: left;
+    background-color: aquamarine;
+}
+#mainMenu {
+    margin: 0.5%;
+    width: 99%;
+    height: 80px;
+    clear: both;
+    background-color: bisque;
+}
+#left {
+    margin: 0.5%;
+    width: 14.5%;
+    height: 600px;
+    background-color: aqua;
+    float: left;
+}
+#content {
+    margin: 0.5%;
+    width: 68.5%;
+    height: 600px;
+    background-color: blueviolet;
+    float: left;
+}
+#right {
+    margin: 0.5%;
+    width: 14%;
+    height: 600px;
+    background-color: chocolate;
+    float: left;
+}
+#footer {
+    margin: 0.5%;
+    width: 99%;
+    height: 100px;
+    background-color: dimgray;
+    clear: both;
+}
