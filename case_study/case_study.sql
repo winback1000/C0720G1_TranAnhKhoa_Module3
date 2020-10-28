@@ -142,9 +142,84 @@ INSERT INTO `casestudy`.`service` (`name`, `area`, `rent_cost`, `max_people`, `r
 ('Autumn', '100', '1000', '5', '1', 'Standard', 'room for small family', '0', '2', '3'),
 ('Winter', '70', '200', '7', '4', 'Elegant', 'House for hours', '40', '2', '2');
 
-delimiter //
-create procedure quest14()
-begin
+-- quest 2
+select * from employees where length(name)<=15 and (name like 'H%' or name like 'K%'or name like 'T%') ;
+
+-- quest 3
+select * from customers where year(now())- year(date_of_birth)>= 18 and year(now())- year(date_of_birth)<= 50 and address in('DaNang','QuangTri');
+
+-- quest 4
+select customers.id, customers.name, customer_type.name, count(customers.id) from customers
+join contract on customers.id = contract.id_customer
+join customer_type on customers.customer_type =  customer_type.id
+where customer_type = 1
+group by customers.id 
+order by count(customers.id);
+
+-- quest 6
+select
+service.id, service.name, service.area, service.max_people,service.rent_cost, service.catalogue
+from
+service
+join contract on service.id = contract.id_service
+join service_catalogue on service.catalogue = service_catalogue.id
+where service.id not in 
+(select service.id from service
+join contract on service.id = contract.id_service
+where year(contract.create_date) = 2019 and (month(contract.create_date) in (1,2,3)))
+group by service.id;
+
+-- quest 7
+select
+service.id, service.name, service.area, service.max_people,service.rent_cost, service.catalogue
+from
+service
+join contract on service.id = contract.id_service
+join service_catalogue on service.catalogue = service_catalogue.id
+where year(contract.create_date) = 2018 and service.id not in 
+(select service.id from service
+join contract on service.id = contract.id_service
+where year(contract.create_date) = 2019)
+group by service.id;
+
+-- quest 9
+select month(contract.create_date) as `month`, year(contract.create_date) as `year`, count(month(contract.create_date)) as `total rent` from contract
+where year(contract.create_date) = 2019
+group by month(contract.create_date);
+
+-- quest 10
+select contract.id, contract.create_date, contract.end_date, contract.deposit, sum(contract_detail.quantity) as `amount of utilitites` from contract
+left join contract_detail on contract.id = contract_detail.id_contract
+group by contract.id;
+
+-- quest 11
+select other_utilities.id,other_utilities.name, other_utilities.unit, other_utilities.price, other_utilities.status, other_utilities.catalogue from other_utilities
+join contract_detail on other_utilities.id = contract_detail.id_utilities
+join contract on contract_detail.id_contract = contract.id
+join customers on contract.id_customer = customers.id
+where customers.customer_type = 1 and customers.address in ('Vinh','QuangNgai');
+
+-- quest 12
+select
+contract.id, employees.name as `employee name`, customers.name as `customer name`, customers.phone_number, service.name as `service name`, sum(contract_detail.quantity) as `amount of utilitites`, contract.deposit
+from contract
+left join contract_detail on contract.id = contract_detail.id_contract
+join employees on contract.id_employee =  employees.id
+join customers on contract.id_customer = customers.id
+join service on contract.id_service = service.id
+where year(contract.create_date) = 2019 and month(contract.create_date) in (10,11,12) and contract.id not in
+(select contract.id from contract
+where year(contract.create_date) = 2019 and month(contract.create_date) in (1,2,3,4,5,6))
+group by contract.id;
+
+-- quest 13
+select
+other_utilities.name, sum(contract_detail.quantity) from other_utilities
+join contract_detail on other_utilities.id = contract_detail.id_utilities
+group by other_utilities.id
+order by sum(contract_detail.quantity) desc limit 3;
+
+-- quest 14
 select
 contract.id as `contract id`, service.name as `service name`, other_utilities.name as `used utility service`, sum(contract_detail.quantity) as `time of using` from other_utilities
 join contract_detail on other_utilities.id = contract_detail.id_utilities
@@ -152,5 +227,4 @@ join contract on contract_detail.id_contract = contract.id
 join service on contract.id_service = service.id
 group by other_utilities.id
 having sum(contract_detail.quantity) = 1;
-end //
-delimiter ;
+
