@@ -2,47 +2,62 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>vertical menu</title>
+    <title>horizon menu</title>
 </head>
 <style>
     body{
         font-family: Arial;
     }
-    #menu, #menu ul, #menu li{
+
+    #menu{
+        height: 30px;
+        padding:0;
+        margin:0;
+        /*background-color: #000000;*/
+        /*border: 1px solid #CDCDCD;*/
+    }
+
+    #menu ul, #menu li{
         padding:0;
         margin:0;
     }
-
     #menu li{
-        list-style: none;
         position: relative;
+        float: left;
+        list-style: none;
+        margin: 0;
+        padding:0;
+    }
+    #menu li a{
         width:100px;
         height: 30px;
-        padding:0 20px;
-        background-color: black;
-        line-height: 30px;
-        cursor:pointer;
-    }
-
-    #menu li a{
+        display: block;
         text-decoration:none;
+        text-align: center;
+        line-height: 30px;
+        background-color: blue;
         color: white;
     }
-    #menu li:hover{
-        background-color:red;
+
+    #menu ul ul li a {
+        width: 200px;
+        text-align: left;
+        padding-left: 10px;
+    }
+    #menu li a:hover{
+        background-color: ButtonHighlight;
     }
     #menu ul ul{
         position: absolute;
-        top:0;
-        left:140px;
-        visibility:hidden;
+        top: 30px;
+        left: 15px;
+        visibility: hidden;
     }
     #menu ul li:hover ul{
-        visibility:visible;
+        visibility: visible;
     }
 </style>
 <body>
-<h3>ACCP i10</h3>
 <div id="menu">
     <ul>
         <li><a href="#">Sem 1</a>
@@ -65,6 +80,7 @@
         </li>
         <li><a href="#">Sem 3</a></li>
         <li><a href="#">Sem 4</a></li>
+
     </ul>
 </div>
 </body>

@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Facebook page</title>
+    <style>
+        .header{
+            position: fixed;
+            width: 99%;
+            height: 10%;
+            background-color: mediumblue;
+            float: top;
+            z-index: 9;
+        }
+        #logo{
+            position: absolute;
+            display: inline-block;
+            background-color: red;
+            height: 100%;
+            width: 6%;
+            float: left;
+        }
+        #searchLogo{
+            position: absolute;
+            display: inline-block;
+            height: 100%;
+            width: 6%;
+            float: left;
+            left: 10.5%;
+        }
+        #searchBar{
+            position: absolute;
+            display: inline-block;
+            height: 60%;
+            width: 20%;
+            float: left;
+            left: 10%;
+            top: 16%;
+        }
+        #whole {
+
+            position: relative;
+            top: 100px;
+            height: 900px;
+            width: 100%;
+            background-image: linear-gradient(white,darkmagenta);
+        }
+        #bigText {
+            position: absolute;
+            top: 20%;
+            left: 20%;
+            height: 20%;
+            width: 25%;
+        }
+        #smallText {
+            position: absolute;
+            top: 40%;
+            left: 23%;
+            height: 20%;
+            width: 20%;
+        }
+        #smallText h2 {
+            position: absolute;
+            width: 100%;
+            text-align: justify;
+        }
+        #login {
+            position: absolute;
+            top: 20%;
+            left: 50%;
+            height: 50%;
+            width: 25%;
+            background-color: ghostwhite;
+            border: 1px solid;
+            border-radius: 10px;
+        }
+        #login #email {
+            width: 88%;
+            height: 12%;
+            border-radius: 10px;
+            position: absolute;
+            top: 5%;
+            left: 5%;
+            font-size: larger;
+        }
+        #login #password {
+            width: 88%;
+            height: 12%;
+            border-radius: 10px;
+            position: absolute;
+            top: 24%;
+            left: 5%;
+            font-size: larger;
+        }
+        #login #loginButton {
+            width: 88%;
+            height: 12%;
+            border-radius: 5px;
+            background-color: royalblue;
+            position: absolute;
+            top:42%;
+            left: 6%;
+            font-size: 22px;
+            font-weight: bold;
+            color: #F5F5F5;
+        }
+        #login a {
+            width: 100%;
+            position: absolute;
+            top: 58%;
+            text-align: center;
+            text-decoration: none;
+            font-size: 18px;
+        }
+        #login hr {
+            width: 90%;
+            position: absolute;
+            top:65%;
+            left: 4%;
+        }
+        #createNew {
+            width: 70%;
+            height: 12%;
+            border-radius: 5px;
+            background-color: limegreen;
+            position: absolute;
+            top:75%;
+            left: 16%;
+            font-size: 22px;
+            font-weight: bold;
+            color: #F5F5F5;
+        }
+    </style>
+</head>
+<body>
+<div class = "header">
+    <div id = "logo"><img src="fblogo_revert.png" style="width: 100%; height: 100%"></div>
+    <div id = "searchBar"><input type="text" style="width: 90%; height: 70%; border-radius: 20px;position: absolute; top: 10px"></div>
+    <div id = "searchLogo"><img src="magnifying.jpg" style="width: 33%; height: 33%;position: absolute; top: 32%"></div>
+</div>
+<div id = "whole">
+    <div id = "bigText"><img src="facebook.svg"></div>
+    <div id = "smallText"><h2>Connect with friends and the world around you on Facebook</h2></div>
+    <div id = "login">
+        <input id = "email" type="text" placeholder="Email or Phone number">
+        <input id = "password" type="password" placeholder="Password">
+        <button id = "loginButton" type="button">Log in</button>
+        <a href="#">Forgot password?</a>
+        <hr>
+        <button id = "createNew" type="button">Create New Account</button>
+    </div>
+</div>
+</body>
+</html>
