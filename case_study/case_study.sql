@@ -225,18 +225,20 @@ where year(contract.create_date) = 2019 and month(contract.create_date) in (1,2,
 group by contract.id;
 
 -- quest 13
+
 select
 other_utilities.name, sum(contract_detail.quantity) as `total using` from other_utilities
 join contract_detail on other_utilities.id = contract_detail.id_utilities
 group by other_utilities.id
-order by `total using` desc limit 3;
+having `total using` = (select sum(contract_detail.quantity) from contract_detail
+group by contract_detail.id_utilities
+order by sum(contract_detail.quantity) desc limit 1);
 
 -- quest 14
-select
+;select
 contract.id as `contract id`, service.name as `service name`, other_utilities.name as `used utility service`, sum(contract_detail.quantity) as `time of using` from other_utilities
 join contract_detail on other_utilities.id = contract_detail.id_utilities
 join contract on contract_detail.id_contract = contract.id
 join service on contract.id_service = service.id
 group by other_utilities.id
 having sum(contract_detail.quantity) = 1;
-
