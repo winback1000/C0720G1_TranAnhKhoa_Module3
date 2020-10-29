@@ -182,6 +182,18 @@ join contract on service.id = contract.id_service
 where year(contract.create_date) = 2019)
 group by service.id;
 
+-- quest 8
+select
+customers.name from customers
+union
+select 
+customers.name from customers;
+
+select distinct name from customers;
+
+select name from customers group by name;
+
+
 -- quest 9
 select month(contract.create_date) as `month`, year(contract.create_date) as `year`, count(month(contract.create_date)) as `total rent` from contract
 where year(contract.create_date) = 2019
@@ -214,10 +226,10 @@ group by contract.id;
 
 -- quest 13
 select
-other_utilities.name, sum(contract_detail.quantity) from other_utilities
+other_utilities.name, sum(contract_detail.quantity) as `total using` from other_utilities
 join contract_detail on other_utilities.id = contract_detail.id_utilities
 group by other_utilities.id
-order by sum(contract_detail.quantity) desc limit 3;
+order by `total using` desc limit 3;
 
 -- quest 14
 select
