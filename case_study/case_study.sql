@@ -135,7 +135,8 @@ INSERT INTO `casestudy`.`employees` (`name`, `date_of_birth`, `identity_number`,
 ('Bruce Wayne', '1980-01-01', '1111111111', '2222222222', 'batman@gmail.com', '1', '1', '1', '10000'),
 ('Clark Kent', '1970-03-11', '9871234560', '0981234567', 'superman@gmail.com', '2', '2', '2', '1000'),
 ('Barry Allen aka Flash', '1988-02-20', '9870651234', '2345123759', 'theflash@yahoo.com', '3', '3', '3', '500'),
-('HomeLander', '1980-10-11', '1235479834', '2343432351', 'hl@hotmail.com', '2', '1', '3', '1000');
+('HomeLander', '1980-10-11', '1235479834', '2343432351', 'hl@hotmail.com', '2', '1', '3', '1000'),
+('William Butcher', '1980-12-01', '1234354665', '3456812375', 'wb@theboys.com', '1', '1', '1', '400');
 
 INSERT INTO `casestudy`.`service` (`name`, `area`, `rent_cost`, `max_people`, `rent_type_id`, `room_standard`, `descriptions_of_other_utilities`, `swimming_pool_area`, `number_of_floor`, `catalogue`) VALUES 
 ('Summer', '90', '2000', '6', '2', 'Beautiful', 'Full services', '30', '2', '2'),
@@ -155,6 +156,15 @@ join customer_type on customers.customer_type =  customer_type.id
 where customer_type = 1
 group by customers.id 
 order by count(customers.id);
+
+-- quest 5 (not complete yet)
+select customers.id, customers.name, customer_type.name as `customer type`, contract.id as `contract id`, contract.create_date, contract.end_date, sum(service.rent_cost + contract_detail.quantity*other_utilities.price) as total from customers
+left join contract on customers.id = contract.id_customer
+left join contract_detail on contract.id = contract_detail.id_contract
+left join service on contract.id_service = service.id
+left join other_utilities on contract_detail.id_utilities = other_utilities.id
+left join customer_type on customers.customer_type = customer_type.id
+group by customers.id;
 
 -- quest 6
 select
@@ -235,10 +245,105 @@ group by contract_detail.id_utilities
 order by sum(contract_detail.quantity) desc limit 1);
 
 -- quest 14
-;select
+select
 contract.id as `contract id`, service.name as `service name`, other_utilities.name as `used utility service`, sum(contract_detail.quantity) as `time of using` from other_utilities
 join contract_detail on other_utilities.id = contract_detail.id_utilities
 join contract on contract_detail.id_contract = contract.id
 join service on contract.id_service = service.id
 group by other_utilities.id
 having sum(contract_detail.quantity) = 1;
+
+-- quest 15
+select 
+employees.id, employees.name, employee_department.name as department, employees.phone_number from employees
+join contract on employees.id = contract.id_employee
+join employee_department on employees.department = employee_department.id
+where year(contract.create_date) in (2018,2019)
+group by employees.id
+having count(employees.id) <= 3;
+
+-- quest 16
+INSERT INTO `casestudy`.`employees` (`name`, `date_of_birth`, `identity_number`, `phone_number`, `email`, `level`, `position`, `department`, `salary`) VALUES 
+('William Butcher', '1980-12-01', '1234354665', '3456812375', 'wb@theboys.com', '1', '1', '1', '400');
+SET SQL_SAFE_UPDATES = 0;
+delete from employees where employees.id not in
+(select * from 
+(select employees.id from employees
+join contract on employees.id = contract.id_employee
+where year(contract.create_date) in (2017,2018,2019)
+group by employees.id
+having count(employees.id) > 0)tblTmp);
+
+-- quest 17
+update customers set customer_type = 1 where customers.id in
+(select * from
+(select id_customer from contract
+join customers on contract.id_customer = customers.id
+where customers.customer_type =2 and year(contract.create_date) = 2019
+group by id_customer
+having sum(total_cost) >500)tblTmp);
+update customers set customer_type = 2 where customers.id in (2,6);
+
+-- quest 18
+INSERT INTO `casestudy`.`customers` (`id`,`name`, `date_of_birth`, `identity_number`, `phone_number`, `email`, `customer_type`, `address`) VALUES 
+(20,'Do Van Kien', '2007-10-26', '1234327892', '0987543329', 'af.nguyen@gmail.com', '5', 'DaNang');
+INSERT INTO `casestudy`.`contract` (`id`,`id_employee`, `id_customer`, `id_service`, `create_date`, `end_date`, `deposit`, `total_cost`) VALUES 
+(36,'4', '20', '4', '2015-11-11', '2016-01-01', '300', '1000');
+insert into contract_detail (id_contract, id_utilities, quantity) values
+(36,4,4);
+
+delete customers, contract, contract_detail 
+from contract
+join customers on contract.id_customer = customers.id
+join contract_detail on contract.id = contract_detail.id_contract
+where contract.id_customer in
+(select * from (
+select contract.id_customer from contract
+where year(contract.create_date) <2016)tblTmp);
+
+-- quest 19
+update other_utilities set price = price*2 where id in
+(select id_utilities from contract_detail
+group by id_utilities
+having sum(quantity)>=10);
+
+update other_utilities set price = price/2 where id in
+  (select id_utilities from contract_detail
+group by id_utilities
+having sum(quantity)>=10);
+
+-- quest 20
+select customers.id as id, customers.name as `name`, customers.email as email, customers.phone_number as `phone number`, customers.date_of_birth as `date of birth`, customers.address as address
+from customers
+union
+select employees.id as id, employees.name as `name`, employees.email as email, employees.phone_number as `phone number`, employees.date_of_birth as `date of birth`, employees.address as address
+from employees;
+
+-- quest 21
+INSERT INTO `casestudy`.`contract` (`id_employee`, `id_customer`, `id_service`, `create_date`, `end_date`, `deposit`, `total_cost`) 
+VALUES ('1', '18', '4', '2019-12-12', '2020-01-02', '500', '500');
+
+create or replace view V_EMPLOYEE as
+select employees.id, employees.name, employees.date_of_birth, employees.identity_number, employees.phone_number, employees.email, employees.level, employees.position, employees.department, employees.salary, employees.address from employees 
+join contract on employees.id = contract.id_employee
+where contract.create_date = '2019-12-12' and employees.address = 'HaiChau';
+
+-- quest 22
+update casestudy.v_employee set address = 'LienChieu';
+UPDATE `casestudy`.`employees` SET `address` = 'HaiChau' WHERE (`id` = '1');
+
+-- quest 23
+delimiter //
+create procedure Sp_1 (in in_id int)
+begin
+SET FOREIGN_KEY_CHECKS=OFF;
+delete customers, contract, contract_detail 
+from contract
+join customers on contract.id_customer = customers.id
+join contract_detail on contract.id = contract_detail.id_contract
+where contract.id_customer = in_id;
+SET FOREIGN_KEY_CHECKS=ON;
+end //
+delimiter ;
+
+-- quest 24
