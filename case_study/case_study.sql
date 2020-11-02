@@ -291,7 +291,7 @@ INSERT INTO `casestudy`.`contract` (`id`,`id_employee`, `id_customer`, `id_servi
 (36,'4', '20', '4', '2015-11-11', '2016-01-01', '300', '1000');
 insert into contract_detail (id_contract, id_utilities, quantity) values
 (36,4,4);
-
+SET SQL_SAFE_UPDATES = 0;
 delete customers, contract, contract_detail 
 from contract
 join customers on contract.id_customer = customers.id
@@ -347,3 +347,22 @@ end //
 delimiter ;
 
 -- quest 24
+delimiter //
+create procedure Sp_2 (in in_id_employee int,in_id_customer int, in_id_service int, in_create_date date, in_end_date date, in_deposit double, in_total_cost double )
+begin
+INSERT INTO `casestudy`.`contract` (`id_employee`, `id_customer`, `id_service`, `create_date`, `end_date`, `deposit`, `total_cost`) VALUES 
+(in_id_employee, in_id_customer, in_id_service, in_create_date, in_end_date, in_deposit, in_total_cost);
+end //
+delimiter ;
+
+-- quest 25
+delimiter //
+create trigger Tr_1 after delete on contract
+FOR EACH ROW
+begin
+declare total_contract int;
+select count(contract.id)
+into total_contract
+from contract ;
+end //
+delimiter ;
