@@ -1,0 +1,19 @@
+<component name="ArtifactManager">
+  <artifact type="exploded-war" name="product_management:war exploded">
+    <output-path>$PROJECT_DIR$/out/artifacts/product_management_war_exploded</output-path>
+    <root id="root">
+      <element id="javaee-facet-resources" facet="product_management/web/Web" />
+      <element id="directory" name="WEB-INF">
+        <element id="directory" name="classes">
+          <element id="module-output" name="product_management" />
+        </element>
+        <element id="directory" name="lib">
+          <element id="library" level="project" name="jstl-1.2" />
+          <element id="library" level="project" name="jstl-api-1.2" />
+          <element id="library" level="project" name="jstl-impl-1.2" />
+          <element id="library" level="project" name="mysql-connector-java-8.0.17" />
+        </element>
+      </element>
+    </root>
+  </artifact>
+</component>
