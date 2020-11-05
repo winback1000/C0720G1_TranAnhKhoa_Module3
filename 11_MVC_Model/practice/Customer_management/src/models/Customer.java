@@ -5,15 +5,19 @@ public class Customer {
     private String name;
     private String address;
     private String email;
+    static int cusNum = 0;
 
-    public Customer(int id, String name, String email, String address) {
-        this.id = id;
+    public Customer(String name, String email, String address) {
+        cusNum++;
+        this.id = cusNum;
         this.name = name;
         this.address = address;
         this.email = email;
     }
 
     public Customer() {
+        cusNum++;
+        this.id = cusNum;
     }
 
     public int getId() {
