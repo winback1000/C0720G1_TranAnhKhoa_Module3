@@ -15,10 +15,10 @@ public class ProductDAO implements IProductDAO {
             " (?, ?, ?, ?, ?);";
 
     private static final String SELECT_PRODUCT_BY_ID = "select * from product where id =?";
-    private static final String SELECT_ALL_PRODUCT = "select * from product";
+    private static final String SELECT_ALL_PRODUCT = "SELECT * FROM product_manager.product;";
     private static final String DELETE_PRODUCT_SQL = "delete from product where id = ?;";
-    private static final String UPDATE_PRODUCT_SQL = "update product set name = ?,manufacturer= ?, image =? , price = ?, stock = ?, where id = ?;";
-
+    private static final String UPDATE_PRODUCT_SQL = "update product_manager.product set `name` = ?,manufacturer= ?, image =? , price = ?, stock = ? where id = ?;";
+    private static final String SEARCH_PRODUCT_NAME = "SELECT * FROM product where name like ?;";
     public ProductDAO() {
     }
 
@@ -125,16 +125,46 @@ public class ProductDAO implements IProductDAO {
     public boolean updateProduct(Product prd) throws SQLException {
         boolean rowUpdated;
         try (Connection connection = getConnection();
-             PreparedStatement statement = connection.prepareStatement(UPDATE_PRODUCT_SQL))
+             PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_PRODUCT_SQL))
         {
-            statement.setString(1, prd.getName());
-            statement.setString(2, prd.getManufacturer());
-            statement.setString(3, prd.getImage());
-            statement.setDouble(4, prd.getPrice());
-            statement.setInt(5, prd.getStock());
-            statement.setInt(6, prd.getId());
-            rowUpdated = statement.executeUpdate() > 0;
+            preparedStatement.setString(1, prd.getName());
+            preparedStatement.setString(2, prd.getManufacturer());
+            preparedStatement.setString(3, prd.getImage());
+            preparedStatement.setDouble(4, prd.getPrice());
+            preparedStatement.setInt(5, prd.getStock());
+            preparedStatement.setInt(6, prd.getId());
+            System.out.println(UPDATE_PRODUCT_SQL);
+            rowUpdated = preparedStatement.executeUpdate() > 0;
         }
         return rowUpdated;
+    }
+
+    @Override
+    public List<Product> searchProduct(String searchData) {
+        List<Product> products = new ArrayList<>();
+        try (Connection connection = getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(SEARCH_PRODUCT_NAME)) {
+            preparedStatement.setString(1, "%"+ searchData +"%");
+            ResultSet rs = preparedStatement.executeQuery();
+            while (rs.next()) {
+                int id = rs.getInt("id");
+                String name = rs.getString("name");
+                String manufacturer = rs.getString("manufacturer");
+                String image = rs.getString("image");
+                double price = rs.getDouble("price");
+                int stock = rs.getInt("stock");
+                products.add(new Product(id, name, manufacturer, image, price, stock));
+                System.out.println(products);
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        } finally {
+            try {
+                getConnection().close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return products;
     }
 }
