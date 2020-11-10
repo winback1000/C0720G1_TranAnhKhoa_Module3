@@ -40,7 +40,6 @@ public class ProductDAO implements IProductDAO {
         try (Connection connection = getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ALL_PRODUCT))
         {
-            System.out.println(preparedStatement);
             ResultSet rs = preparedStatement.executeQuery();
             while (rs.next()) {
                 int id = rs.getInt("id");
@@ -67,17 +66,22 @@ public class ProductDAO implements IProductDAO {
     public void insertProduct(Product prd) throws SQLException {
         System.out.println(INSERT_PRODUCT_SQL);
         // try-with-resource statement will auto close the connection.
+        Savepoint sp = null;
         try (Connection connection = getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(INSERT_PRODUCT_SQL)) {
+            connection.setAutoCommit(false);
             preparedStatement.setString(1, prd.getName());
             preparedStatement.setString(2, prd.getManufacturer());
             preparedStatement.setString(3, prd.getImage());
             preparedStatement.setDouble(4, prd.getPrice());
             preparedStatement.setInt(5, prd.getStock());
+            sp = connection.setSavepoint();
             System.out.println(preparedStatement);
+            connection.commit();
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
+            getConnection().rollback(sp);
         } finally {
             getConnection().close();
         }

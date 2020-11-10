@@ -55,7 +55,7 @@
               <th scope="row">${prd.getId()}</th>
               <td>${prd.getName()}</td>
               <td>${prd.getManufacturer()}</td>
-              <td><img src="${prd.getImage()}" style="height: 80px; width: 80px" class="rounded mx-auto d-block"></td>
+              <td><img src="${prd.getImage()}" style="height: 80px; width: 80px;" class="rounded mx-auto d-block"></td>
               <td>${prd.getPrice()}</td>
               <td>${prd.getStock()}</td>
               <td>
@@ -81,12 +81,6 @@
               <form action="/home" method="post">
               <div class="modal-body">
                   <input type="hidden" name="action" value="edit_modal">
-                  <div class="input-group mb-3">
-                      <div class="input-group-prepend">
-                          <span class="input-group-text" id="basic-addon3">ID</span>
-                      </div>
-                      <input type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3">
-                  </div>
                   <input type="text" style="margin: 5px" class="form-control" name = "id" value="" id="modalId" readonly>
                   <input type="text" style="margin: 5px" class="form-control" name = "name" id="modalName" value="" placeholder="Input Name">
                   <input type="text" style="margin: 5px" class="form-control" name = "manufacturer" id="modalManufacturer" value="" placeholder="Input Manufacturer">

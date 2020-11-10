@@ -8,7 +8,7 @@ create table service (
 id int auto_increment primary key,
 `name` varchar(20) not null unique,
 area double not null,
-rent_cost double not null check (rent_cost>0),
+rent_cost double not null check (rent_cost>0), 
 max_people int not null check (max_people>0),
 rent_type_id int,
 room_standard varchar(10) not null,
