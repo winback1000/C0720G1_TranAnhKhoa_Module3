@@ -71,12 +71,7 @@ public class ProductManagementServlet extends HttpServlet {
         double price = Double.parseDouble(request.getParameter("price"));
         int stock = Integer.parseInt(request.getParameter("stock"));
         Product editedProduct = new Product(id, name, manufacturer,image,price,stock);
-        try {
-            System.out.println(productDAO.updateProduct(editedProduct));
-        } catch (SQLException e) {
-            e.printStackTrace();
-            edited = false;
-        }
+        System.out.println(productDAO.updateProduct(editedProduct));
     }
 
     private void editProduct(HttpServletRequest request, HttpServletResponse response) {
@@ -89,7 +84,6 @@ public class ProductManagementServlet extends HttpServlet {
         } catch (ServletException | IOException e) {
             System.out.println(e.getMessage());
         }
-
     }
 
     private void deleteProduct(HttpServletRequest request, HttpServletResponse response) {

@@ -25,13 +25,20 @@ public class ProductDAO implements IProductDAO {
     protected Connection getConnection() {
         Connection connection = null;
         try {
-            Class.forName("com.mysql.jdbc.Driver");
+            Class.forName("com.mysql.cj.jdbc.Driver");
             connection = DriverManager.getConnection(jdbcURL, jdbcUsername, jdbcPassword);
         } catch (SQLException | ClassNotFoundException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
         return connection;
+    }
+    protected void closeConnection() {
+        try {
+            getConnection().close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -53,11 +60,7 @@ public class ProductDAO implements IProductDAO {
         } catch (SQLException ex) {
             ex.printStackTrace();
         } finally {
-            try {
-                getConnection().close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
+            closeConnection();
         }
         return products;
     }
@@ -66,24 +69,24 @@ public class ProductDAO implements IProductDAO {
     public void insertProduct(Product prd) throws SQLException {
         System.out.println(INSERT_PRODUCT_SQL);
         // try-with-resource statement will auto close the connection.
-        Savepoint sp = null;
+//        Savepoint sp = null;
         try (Connection connection = getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(INSERT_PRODUCT_SQL)) {
-            connection.setAutoCommit(false);
+//            connection.setAutoCommit(false);
             preparedStatement.setString(1, prd.getName());
             preparedStatement.setString(2, prd.getManufacturer());
             preparedStatement.setString(3, prd.getImage());
             preparedStatement.setDouble(4, prd.getPrice());
             preparedStatement.setInt(5, prd.getStock());
-            sp = connection.setSavepoint();
+//            sp = connection.setSavepoint();
             System.out.println(preparedStatement);
-            connection.commit();
+//            connection.commit();
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
-            getConnection().rollback(sp);
+//            getConnection().rollback(sp);
         } finally {
-            getConnection().close();
+            closeConnection();
         }
     }
 
@@ -106,11 +109,7 @@ public class ProductDAO implements IProductDAO {
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         } finally {
-            try {
-                getConnection().close();
-            } catch (SQLException e) {
-                System.out.println(e.getMessage());
-            }
+            closeConnection();
         }
         return prd;
     }
@@ -126,8 +125,8 @@ public class ProductDAO implements IProductDAO {
     }
 
     @Override
-    public boolean updateProduct(Product prd) throws SQLException {
-        boolean rowUpdated;
+    public boolean updateProduct(Product prd){
+        boolean rowUpdated = false;
         try (Connection connection = getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_PRODUCT_SQL))
         {
@@ -139,6 +138,10 @@ public class ProductDAO implements IProductDAO {
             preparedStatement.setInt(6, prd.getId());
             System.out.println(UPDATE_PRODUCT_SQL);
             rowUpdated = preparedStatement.executeUpdate() > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            closeConnection();
         }
         return rowUpdated;
     }
@@ -163,11 +166,7 @@ public class ProductDAO implements IProductDAO {
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         } finally {
-            try {
-                getConnection().close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
+            closeConnection();
         }
         return products;
     }
