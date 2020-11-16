@@ -1,13 +1,14 @@
 package DAO;
 
+import models.CustomerType;
+
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
 public class GetCustomerTypeDAO implements IGetTypeDAO {
-    private String jdbcURL = "jdbc:mysql://localhost:3306/casestudy2?useSSL=false";
-    private String jdbcUsername = "root";
-    private String jdbcPassword = "Chewingum1";
 
     private static final String INSERT_CUSTOMER_TYPE_SQL = "insert into customer_type (customer_type_name) values " +
             " (?);";
@@ -78,5 +79,23 @@ public class GetCustomerTypeDAO implements IGetTypeDAO {
     @Override
     public TreeMap<Integer, String> searchType(String name) {
         return null;
+    }
+    public List<CustomerType> getArrayList(){
+        List<CustomerType> customerTypeArrayList = new ArrayList<>();
+        try (Connection connection = getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ALL_CUSTOMER_TYPE))
+        {
+            ResultSet rs = preparedStatement.executeQuery();
+            while (rs.next()) {
+                int key = rs.getInt("customer_type_id");
+                String name = rs.getString("customer_type_name");
+                customerTypeArrayList.add(new CustomerType(key, name));
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        } finally {
+            closeConnection();
+        }
+        return customerTypeArrayList;
     }
 }

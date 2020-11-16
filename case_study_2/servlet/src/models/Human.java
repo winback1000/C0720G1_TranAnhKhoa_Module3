@@ -19,6 +19,9 @@ public abstract class Human {
         this.address = address;
     }
 
+    public Human() {
+    }
+
     public String getName() {
         return name;
     }

@@ -9,30 +9,32 @@ import java.text.NumberFormat;
 
 public class Customer extends Human {
 
-    static int customerNumber = 0;
-    private String id ;
+    private int id ;
     private int type;
     NumberFormat nf = new DecimalFormat("0000");
 
     public Customer(String name,int type,  String dateOfBirth, String gender, String idCard, String phoneNumber, String email, String address) {
         super(name, dateOfBirth, gender, idCard, phoneNumber, email, address);
-        customerNumber++;
-        this.id ="KH-" + nf.format(customerNumber);
         this.type = type;
     }
 
-    public Customer(String id, String name,int type, String dateOfBirth, String gender, String idCard, String phoneNumber, String email, String address) {
+    public Customer(int id, String name,int type, String dateOfBirth, String gender, String idCard, String phoneNumber, String email, String address) {
         super(name, dateOfBirth, gender, idCard, phoneNumber, email, address);
         this.id = id;
         this.type = type;
-        customerNumber++;
     }
 
-    public String getId() {
+    public Customer() {
+    }
+
+    public int getId() {
         return id;
     }
+    public String getCustomerCode(){
+        return "KH-" + nf.format(this.id);
+    }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
     public int getType () {
@@ -62,11 +64,4 @@ public class Customer extends Human {
                 '}';
     }
 
-    public static void main(String[] args) {
-        Customer test = new Customer("String name",1,  "2000-02-02","Male", "String idCard", "String phoneNumber", "String email", "String address");
-        System.out.println(test);
-        CustomerDAO customerDAO = new CustomerDAO();
-        customerDAO.createCustomer(test);
-        System.out.println(customerDAO.getAllCustomer());
-    }
 }
