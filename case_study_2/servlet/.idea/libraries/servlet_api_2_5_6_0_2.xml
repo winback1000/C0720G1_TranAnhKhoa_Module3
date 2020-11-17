@@ -1,9 +1,22 @@
 <component name="libraryTable">
   <library name="servlet-api-2.5-6.0.2">
+    <ANNOTATIONS>
+      <root url="file://$PROJECT_DIR$/web/popper" />
+    </ANNOTATIONS>
     <CLASSES>
       <root url="jar://$PROJECT_DIR$/web/WEB-INF/libs/servlet-api-2.5-6.0.2.jar!/" />
+      <root url="file://$PROJECT_DIR$/web/popper" />
     </CLASSES>
-    <JAVADOC />
-    <SOURCES />
+    <JAVADOC>
+      <root url="file://$PROJECT_DIR$/web/popper" />
+    </JAVADOC>
+    <NATIVE>
+      <root url="file://$PROJECT_DIR$/web/popper" />
+    </NATIVE>
+    <SOURCES>
+      <root url="file://$PROJECT_DIR$/web/popper" />
+    </SOURCES>
+    <jarDirectory url="file://$PROJECT_DIR$/web/popper" recursive="false" />
+    <jarDirectory url="file://$PROJECT_DIR$/web/popper" recursive="false" type="SOURCES" />
   </library>
 </component>

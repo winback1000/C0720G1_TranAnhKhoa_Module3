@@ -193,7 +193,7 @@
         </div>
 
         <button class="btn btn-outline-warning" type="submit">Save</button>
-        <a type="button" href="/homepage?action=Employee" class="btn btn-outline-danger">Cancel</a>
+        <a type="button" href="/homepage?action=employee" class="btn btn-outline-danger">Cancel</a>
     </form>
 </div>
 

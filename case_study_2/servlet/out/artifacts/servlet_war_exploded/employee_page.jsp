@@ -13,9 +13,9 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="bootstrap413/css/bootstrap.min.css">
+    <link rel="stylesheet" href="datatables/css/dataTables.bootstrap4.min.css">
+
     <style>
         body{
             background-image: url("bg.jpg");
@@ -110,7 +110,8 @@
     </nav>
 </div>
 <div id="content">
-    <table class="table table-striped">
+    <h2 style="color:darkorange">Create New Employee</h2>
+    <table class="table table-striped" id="tableEmployee">
         <thead class="thead-dark">
         <tr>
             <th scope="col">Id</th>
@@ -142,7 +143,7 @@
                 <td>${employee.getDivisionName()}</td>
                 <td>${employee.getUserType()}</td>
                 <td>
-                        <%--                  <a type="button" href="home?action=edit&id=${prd.id}" class="btn btn-outline-warning">Edit</a>--%>
+
                     <a type="button" href="/homepage?action=editEmployee&id=${employee.getId()}" class="btn btn-outline-primary">Edit</a>
                     <button type="button" onclick="getId(${employee.getId()})" class="btn btn-outline-danger" data-toggle="modal" data-target="#modelDelete">Delete</button>
                 </td>
@@ -176,22 +177,27 @@
         </div>
     </div>
 </div>
-<!-- Optional JavaScript -->
-<!-- jQuery first, then Popper.js, then Bootstrap JS -->
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-        crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
-        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
-        crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
-        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
-        crossorigin="anonymous"></script>
+
+
+<script src="jquery/jquery-3.5.1.min.js"></script>
+<script src="popper/popper.min.js"></script>
+<script src="datatables/js/jquery.dataTables.min.js"></script>
+<script src="datatables/js/dataTables.bootstrap4.min.js"></script>
+<script src="bootstrap413/js/bootstrap.min.js"></script>
+
+
 
 <script>
     function getId(id) {
         $("#modalId").val(id);
     }
+    $(document).ready(function () {
+        $('#tableEmployee').dataTable ({
+            "dom": 'lrtip',
+            "lengthChange": false,
+            "pageLength": 3
+        })
+    })
 </script>
 </body>
 </html>

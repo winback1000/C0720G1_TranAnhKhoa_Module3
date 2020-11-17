@@ -39,7 +39,7 @@ public class EmployeeBO {
             return employee;
     }
     public Employee editEmployee(HttpServletRequest request, HttpServletResponse response) {
-        int id = Integer.parseInt(request.getParameter("id"));
+        int id = Integer.parseInt(request.getParameter("inputEmployeeId"));
         String name = request.getParameter("inputEmployeeName");
         String dateOfBirth = request.getParameter("inputEmployeeDateOfBirth");
         String idCard = request.getParameter("inputEmployeeIdCard");
@@ -52,14 +52,14 @@ public class EmployeeBO {
         String userType = request.getParameter("inputEmployeeUserType");
         Employee employee = new Employee(id,name,dateOfBirth,idCard,salary,phoneNumber,address,position,educationDegree,division,userType);
         if(validateEmployee(employee)) {
-            employeeDAO.createEmployee(employee);
+            employeeDAO.updateEmployee(employee);
             return null;
         } else
             return employee;
     }
     public boolean validateEmployee(Employee employee){
         Validator validator = new Validator();
-        return  (validator.isValidDateOfBirth(employee.getDateOfBirth())&&validator.isValidIdCard(employee.getIdCard())&&validator.isValidPhoneNumber(employee.getPhoneNumber()));
+        return  (validator.isValidDateOfBirth(employee.getDateOfBirth())&&validator.isValidIdCard(employee.getIdCard())&&validator.isValidPhoneNumber(employee.getPhoneNumber())&&employee.getSalary()>0);
     }
     public void delete(int id) {
         employeeDAO.deleteEmployee(id);

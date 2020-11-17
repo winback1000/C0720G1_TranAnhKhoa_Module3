@@ -39,8 +39,19 @@ public class HomePageServlet extends HttpServlet {
             case "editCustomer":
                 editCustomer(request,response);
                 break;
+            case "editEmployee" :
+                editEmployee(request,response);
+                break;
         }
     }
+
+    private void editEmployee(HttpServletRequest request, HttpServletResponse response) {
+        if(employeeBO.editEmployee(request,response) != null) {
+            showEditEmployeePageAfterValidate(request,response,employeeBO.editEmployee(request,response));
+        } else showAllEmployee(request,response);
+    }
+
+
 
     private void editCustomer(HttpServletRequest request, HttpServletResponse response) {
         if (customerBO.editCustomer(request,response) != null) {
@@ -82,6 +93,9 @@ public class HomePageServlet extends HttpServlet {
             case "editCustomer":
                 showEditCustomerPage(request,response);
                 break;
+            case "editEmployee":
+                showEditEmployeePage(request,response);
+                break;
             case "deleteCustomer":
                 deleteCustomer(request,response);
                 showAllCustomer(request,response);
@@ -92,7 +106,22 @@ public class HomePageServlet extends HttpServlet {
         }
     }
 
-
+    private void showEditEmployeePage(HttpServletRequest request, HttpServletResponse response) {
+        int editId = Integer.parseInt(request.getParameter("id"));
+        Validator validator = new Validator();
+        request.setAttribute("validator" , validator);
+        request.setAttribute("positionList" , getEmployeeTypeDAO.getPositionList());
+        request.setAttribute("divisionList" , getEmployeeTypeDAO.getDivisionList());
+        request.setAttribute("educationDegreeList" , getEmployeeTypeDAO.getEducationDegreeList());
+        request.setAttribute("userTypeList", getEmployeeTypeDAO.getUserTypeList());
+        request.setAttribute("currentEmployee" , employeeBO.getEmployee(editId));
+        RequestDispatcher rd = request.getRequestDispatcher("/editEmployee.jsp");
+        try {
+            rd.forward(request,response);
+        } catch (IOException | ServletException e) {
+            e.printStackTrace();
+        }
+    }
 
 
     private void deleteCustomer(HttpServletRequest request, HttpServletResponse response) {
@@ -128,7 +157,20 @@ public class HomePageServlet extends HttpServlet {
             e.printStackTrace();
         }
     }
-
+    private void showEditEmployeePageAfterValidate(HttpServletRequest request, HttpServletResponse response, Employee wrongEmployee) {
+        request.setAttribute("validator" , new Validator());
+        request.setAttribute("positionList" , getEmployeeTypeDAO.getPositionList());
+        request.setAttribute("divisionList" , getEmployeeTypeDAO.getDivisionList());
+        request.setAttribute("educationDegreeList" , getEmployeeTypeDAO.getEducationDegreeList());
+        request.setAttribute("userTypeList", getEmployeeTypeDAO.getUserTypeList());
+        request.setAttribute("currentEmployee" , wrongEmployee);
+        RequestDispatcher rd = request.getRequestDispatcher("/editEmployee.jsp");
+        try {
+            rd.forward(request,response);
+        } catch (IOException | ServletException e) {
+            e.printStackTrace();
+        }
+    }
 
     private void showCreateCustomerPage(HttpServletRequest request, HttpServletResponse response) {
         Customer customer = new Customer();
@@ -157,6 +199,7 @@ public class HomePageServlet extends HttpServlet {
         }
     }
     private void showCreateEmployeePageAfterValidate(HttpServletRequest request, HttpServletResponse response, Employee wrongEmployee) {
+        request.setAttribute("validator" , new Validator());
         request.setAttribute("positionList" , getEmployeeTypeDAO.getPositionList());
         request.setAttribute("divisionList" , getEmployeeTypeDAO.getDivisionList());
         request.setAttribute("educationDegreeList" , getEmployeeTypeDAO.getEducationDegreeList());
